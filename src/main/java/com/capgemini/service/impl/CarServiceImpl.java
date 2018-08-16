@@ -40,6 +40,11 @@ public class CarServiceImpl implements CarService{
 	}
 
 	@Override
+	public void deleteCar(Long id) {
+		carDAO.delete(id);
+	}
+	
+	@Override
 	public CarTO updateCar(CarTO car) {
 		CarEntity carEntity = carDAO.findOne(car.getId()) ;
 		carDAO.update(CarMapper.map2Entity(car, carEntity));

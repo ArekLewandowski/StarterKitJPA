@@ -3,16 +3,20 @@ package com.capgemini.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import javax.transaction.Transactional;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.capgemini.types.CarTO;
 
 import Enums.CAR_TYPE;
 
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class CarServiceTest {
@@ -20,6 +24,7 @@ public class CarServiceTest {
 	@Autowired
 	private CarService carService;
 
+	@Transactional
 	@Test
 	public void testShouldAddCar() {
 
@@ -42,6 +47,7 @@ public class CarServiceTest {
 		assertEquals(addedCar.getBrand(), "Toyota");
 	}
 	
+	@Transactional
 	@Test
 	public void testShouldRemoveCar() {
 
@@ -84,7 +90,7 @@ public class CarServiceTest {
 		
 
 		// when
-		carService.deleteCar(carTO1);
+		carService.deleteCar(1L);
 
 		// then
 		assertNotNull(carTO2);
@@ -92,6 +98,7 @@ public class CarServiceTest {
 		assertEquals(2, carService.getAllCars().size());
 	}
 	
+	@Transactional
 	@Test
 	public void testUpdateCar() {
 
@@ -134,6 +141,7 @@ public class CarServiceTest {
 		
 
 		// when
+//		carService.updateCar(car)
 
 		// then
 		assertNotNull(carTO2);

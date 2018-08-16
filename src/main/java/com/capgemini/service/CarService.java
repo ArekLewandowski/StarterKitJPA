@@ -18,5 +18,6 @@ public interface CarService {
 	List<CarTO> getCarByType(CAR_TYPE type);	
 	List<CarTO> getCarByBrand(String brand);
 	List<CarTO> getCarByEmployee(EmployeeTO employee);
+	void deleteCar(Long id);
 	
 }
