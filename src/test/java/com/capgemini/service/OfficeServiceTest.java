@@ -3,29 +3,19 @@ package com.capgemini.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.Set;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.capgemini.dao.EmployeeDAO;
-import com.capgemini.dao.OfficeDAO;
-import com.capgemini.domain.EmployeeEntity;
-import com.capgemini.mappers.EmployeeMapper;
-import com.capgemini.types.AuthorTO;
-import com.capgemini.types.BookTO;
-import com.capgemini.types.AuthorTO.AuthorTOBuilder;
-import com.capgemini.types.BookTO.BookTOBuilder;
 import com.capgemini.types.EmployeeTO;
 import com.capgemini.types.OfficeTO;
 
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class OfficeServiceTest {
@@ -34,7 +24,7 @@ public class OfficeServiceTest {
 	private OfficeService officeService;
 	
 	@Autowired
-	private EmployeeDAO employeeDAO;
+	private EmployeeService employeeService;
 	
 	@Test
 	public void testShouldAddOffice() {
@@ -95,6 +85,7 @@ public class OfficeServiceTest {
 		
 
 		// when
+		officeTO.setId(1L);
 		officeService.deleteOffice(officeTO);
 		
 
@@ -114,11 +105,11 @@ public class OfficeServiceTest {
 		OfficeTO addedOffice2 = officeService.addOffice(officeTO2);
 		OfficeTO officeTO3 = OfficeTO.builder().city("Lodz").address("Klorowa 1").email("lodz@carrent.pl").phone(355444333).build();
 		OfficeTO addedOffice3 = officeService.addOffice(officeTO3);
-		officeTO.setCity("Gdansk");
+		addedOffice.setCity("Gdansk");
 
 		// when
-		OfficeTO updatedOffice = officeService.updateOffice(officeTO);
-		OfficeTO selectedOffice = officeService.getOffice(1L);
+		OfficeTO updatedOffice = officeService.updateOffice(addedOffice);
+		OfficeTO selectedOffice = officeService.getOffice(updatedOffice.getId());
 
 		// then
 		assertNotNull(selectedOffice);
@@ -138,16 +129,106 @@ public class OfficeServiceTest {
 		OfficeTO addedOffice3 = officeService.addOffice(officeTO3);
 		OfficeTO officeTO4 = OfficeTO.builder().city("Wroclaw").address("Korowa 1").email("wroclaw@carrent.pl").phone(255444333).build();
 		OfficeTO addedOffice4 = officeService.addOffice(officeTO4);
-		EmployeeEntity ee1 = employeeDAO.save(new EmployeeEntity(null, "firstName", "lastName", "position", 22, null, null, null, null));
-		EmployeeEntity ee2 = employeeDAO.save(new EmployeeEntity(null, "firstName2", "lastName2", "position", 32, null, null, null, null));
+		EmployeeTO ee1 = employeeService.addEmployee(
+				new EmployeeTO(null, "firstName", "lastName", "position", 44));
+		EmployeeTO ee2 = employeeService.addEmployee(
+				new EmployeeTO(null, "firstName2", "lastName2", "position", 32));
 
 		// when
-		officeService.addEmployeeToOffice(officeTO, EmployeeMapper.map2TO(ee1));
-		Set<EmployeeTO> employies = officeService.getAllOfficeEmployies(officeTO);
+		List<EmployeeTO> employies = officeService.addEmployeeToOffice(addedOffice, ee1);
+		List<EmployeeTO> employies2 = officeService.addEmployeeToOffice(officeTO, ee2);
+		
 
 		// then
 		assertNotNull(employies);
-		assertEquals(employies.size(), 1);
+		assertNotNull(employies2);
+		assertEquals(1, employies.size());
+		assertEquals(1, employies2.size());
+	}
+	
+	@Test
+	public void testShouldRemoveEmployee() {
+
+		// given
+		OfficeTO officeTO = OfficeTO.builder().city("Poznań").address("Kolorowa 1").email("poznan@carrent.pl").phone(555444333).build();
+		OfficeTO addedOffice = officeService.addOffice(officeTO);
+		OfficeTO officeTO2 = OfficeTO.builder().city("Warszawa").address("Zielona 1").email("warszawa@carrent.pl").phone(455444333).build();
+		OfficeTO addedOffice2 = officeService.addOffice(officeTO2);
+		OfficeTO officeTO3 = OfficeTO.builder().city("Lodz").address("Klorowa 1").email("lodz@carrent.pl").phone(355444333).build();
+		OfficeTO addedOffice3 = officeService.addOffice(officeTO3);
+		OfficeTO officeTO4 = OfficeTO.builder().city("Wroclaw").address("Korowa 1").email("wroclaw@carrent.pl").phone(255444333).build();
+		OfficeTO addedOffice4 = officeService.addOffice(officeTO4);
+		EmployeeTO ee1 = employeeService.addEmployee(
+				new EmployeeTO(null, "firstName", "lastName", "position", 44));
+		EmployeeTO ee2 = employeeService.addEmployee(
+				new EmployeeTO(null, "firstName2", "lastName2", "position", 32));
+
+		// when
+		List<EmployeeTO> employies = officeService.addEmployeeToOffice(addedOffice, ee1);
+		List<EmployeeTO> employies2 = officeService.addEmployeeToOffice(addedOffice2, ee2);
+		EmployeeTO deletedEmployee = officeService.removeEmployeeFromOffice(addedOffice, ee1);
+
+		// then
+		assertNotNull(employies);
+		assertNotNull(employies2);
+		assertNotNull(deletedEmployee);
+		assertEquals(1, employies.size());
+		assertEquals(1, employies2.size());
+		assertEquals("firstName", deletedEmployee.getFirstName());
+	}
+	
+	
+	@Test
+	public void testShouldGetEmployies() {
+
+		// given
+		OfficeTO officeTO = OfficeTO.builder().city("Poznań").address("Kolorowa 1").email("poznan@carrent.pl").phone(555444333).build();
+		OfficeTO addedOffice = officeService.addOffice(officeTO);
+		OfficeTO officeTO2 = OfficeTO.builder().city("Warszawa").address("Zielona 1").email("warszawa@carrent.pl").phone(455444333).build();
+		OfficeTO addedOffice2 = officeService.addOffice(officeTO2);
+		OfficeTO officeTO3 = OfficeTO.builder().city("Lodz").address("Klorowa 1").email("lodz@carrent.pl").phone(355444333).build();
+		OfficeTO addedOffice3 = officeService.addOffice(officeTO3);
+		OfficeTO officeTO4 = OfficeTO.builder().city("Wroclaw").address("Korowa 1").email("wroclaw@carrent.pl").phone(255444333).build();
+		OfficeTO addedOffice4 = officeService.addOffice(officeTO4);
+		EmployeeTO ee1 = employeeService.addEmployee(
+				new EmployeeTO(null, "firstName", "lastName", "position", 44));
+		EmployeeTO ee2 = employeeService.addEmployee(
+				new EmployeeTO(null, "firstName2", "lastName2", "position", 32));
+
+		// when
+		List<EmployeeTO> employies = officeService.addEmployeeToOffice(addedOffice, ee1);
+		int employiesAmount = officeService.getAllOfficeEmployies(addedOffice).size();
+
+		// then
+		assertNotNull(employiesAmount);
+		assertEquals(1, employiesAmount);
+		assertEquals(1, employies.size());
+	}
+	
+	@Test
+	public void testShouldGetEmployiesByPosition() {
+
+		// given
+		OfficeTO officeTO = OfficeTO.builder().city("Poznań").address("Kolorowa 1").email("poznan@carrent.pl").phone(555444333).build();
+		OfficeTO addedOffice = officeService.addOffice(officeTO);
+		OfficeTO officeTO2 = OfficeTO.builder().city("Warszawa").address("Zielona 1").email("warszawa@carrent.pl").phone(455444333).build();
+		OfficeTO addedOffice2 = officeService.addOffice(officeTO2);
+		OfficeTO officeTO3 = OfficeTO.builder().city("Lodz").address("Klorowa 1").email("lodz@carrent.pl").phone(355444333).build();
+		OfficeTO addedOffice3 = officeService.addOffice(officeTO3);
+		OfficeTO officeTO4 = OfficeTO.builder().city("Wroclaw").address("Korowa 1").email("wroclaw@carrent.pl").phone(255444333).build();
+		OfficeTO addedOffice4 = officeService.addOffice(officeTO4);
+		EmployeeTO ee1 = employeeService.addEmployee(
+				new EmployeeTO(null, "firstName", "lastName", "position", 44));
+		EmployeeTO ee2 = employeeService.addEmployee(
+				new EmployeeTO(null, "firstName2", "lastName2", "position", 32));
+
+		// when
+		List<EmployeeTO> employies = employeeService.getEmployiesByPosition("position");
+		
+
+		// then
+		assertNotNull(employies);
+		assertEquals(2, employies.size());
 	}
 	
 }

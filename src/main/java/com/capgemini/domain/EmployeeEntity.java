@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -59,6 +60,9 @@ public class EmployeeEntity implements Serializable {
 		inverseJoinColumns = {
 				@JoinColumn(name = "CAR_ID", nullable = false, updatable = false) })
 	private List<CarEntity> cars = new LinkedList<>();
+	@Version
+	private Long version;
+	
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "create_date")

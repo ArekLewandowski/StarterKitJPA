@@ -29,7 +29,11 @@ public class CarServiceImpl implements CarService{
 	
 	@Override
 	public CarTO addCar(CarTO car) {
-		carDAO.save(CarMapper.map2Entity(car));
+		CarEntity carEntity = CarMapper.map2Entity(car);
+		carEntity = carDAO.save(carEntity);
+		car = CarMapper.map2TO(carEntity);
+		System.out.println("Creation time........." + carEntity.getCreateDate());
+		System.out.println("Update time........." + carEntity.getModifyDate());
 		return car;
 	}
 
@@ -71,9 +75,15 @@ public class CarServiceImpl implements CarService{
 		return cars;
 	}
 
+//	@Override
+//	public List<CarTO> getCarByEmployee(EmployeeTO employee) {
+//		List<CarTO> cars = CarMapper.map2TOs(carDAO.getByEmployee(employee.getId()));
+//		return cars;
+//	}
+	
 	@Override
 	public List<CarTO> getCarByEmployee(EmployeeTO employee) {
-		List<CarTO> cars = CarMapper.map2TOs(carDAO.getByEmployee(employee.getId()));
+		List<CarTO> cars = CarMapper.map2TOs(employeeDAO.getOne(employee.getId()).getCars());
 		return cars;
 	}
 

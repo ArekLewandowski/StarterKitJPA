@@ -5,8 +5,10 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -59,8 +62,10 @@ public class CarEntity implements Serializable {
 	private int mileage;
 	@ManyToMany(mappedBy = "cars")
 	private List<EmployeeEntity> employies = new LinkedList<>();
-	@OneToMany(mappedBy = "car")
+	@OneToMany(mappedBy = "car",  fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private List<RentEntity> rents;
+	@Version
+	private Long version;
 	
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)

@@ -1,9 +1,7 @@
 package com.capgemini.dao.impl;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
-import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import com.capgemini.dao.EmployeeDAO;
 import com.capgemini.dao.OfficeDAO;
-import com.capgemini.domain.CarEntity;
 import com.capgemini.domain.EmployeeEntity;
 import com.capgemini.domain.OfficeEntity;
 
@@ -23,9 +20,10 @@ public class OfficeDaoImpl extends AbstractDao<OfficeEntity, Long> implements Of
 	EmployeeDAO employeeDAO;
 
 	@Override
-	public void addEmployee(OfficeEntity officeEntity, EmployeeEntity employeeEntity) {
+	public List<EmployeeEntity> addEmployee(OfficeEntity officeEntity, EmployeeEntity employeeEntity) {
 		employeeEntity.setOffice(officeEntity);
 		officeEntity.addEmployee(employeeEntity);
+		return officeEntity.getEmployies();
 	}
 
 	@Override
@@ -35,8 +33,8 @@ public class OfficeDaoImpl extends AbstractDao<OfficeEntity, Long> implements Of
 	}
 
 	@Override
-	public Set<EmployeeEntity> getEmployies(OfficeEntity officeEntity) {
-		Set<EmployeeEntity> employies = officeEntity.getEmployies();
+	public List<EmployeeEntity> getEmployies(OfficeEntity officeEntity) {
+		List<EmployeeEntity> employies = officeEntity.getEmployies();
 		return employies;
 	}
 

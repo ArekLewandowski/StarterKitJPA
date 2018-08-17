@@ -13,10 +13,10 @@ public interface OfficeService {
 	OfficeTO deleteOffice(OfficeTO officeTO);
 	OfficeTO getOffice(Long id);
 	OfficeTO updateOffice(OfficeTO officeTO);
-	OfficeTO addEmployeeToOffice(OfficeTO officeTO, EmployeeTO employee);
-	OfficeTO removeEmployeeFromOffice(OfficeTO officeTO, EmployeeTO employee);
+	List<EmployeeTO> addEmployeeToOffice(OfficeTO officeTO, EmployeeTO employee);
+	EmployeeTO removeEmployeeFromOffice(OfficeTO officeTO, EmployeeTO employee);
 	
-	Set<EmployeeTO> getAllOfficeEmployies(OfficeTO officeTO);
-	Set<EmployeeTO> getOfficeEmployiesByCar(OfficeTO officeTO, CarTO carTO);
+	List<EmployeeTO> getAllOfficeEmployies(OfficeTO officeTO);
+	List<EmployeeTO> getOfficeEmployiesByCar(OfficeTO officeTO, CarTO carTO);
 	List<OfficeTO> getAllOffices();
 }

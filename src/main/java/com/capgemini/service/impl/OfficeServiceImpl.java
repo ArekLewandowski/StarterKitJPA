@@ -1,6 +1,7 @@
 package com.capgemini.service.impl;
 
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -38,7 +39,8 @@ public class OfficeServiceImpl implements OfficeService {
 
 	@Override
 	public OfficeTO addOffice(OfficeTO officeTO) {
-		officeDao.save(OfficeMapper.map2Entity(officeTO));
+		OfficeEntity officeEntity = officeDao.save(OfficeMapper.map2Entity(officeTO));
+		officeTO = OfficeMapper.map2TO(officeEntity);
 		return officeTO;
 	}
 
@@ -56,26 +58,26 @@ public class OfficeServiceImpl implements OfficeService {
 	}
 
 	@Override
-	public OfficeTO addEmployeeToOffice(OfficeTO officeTO, EmployeeTO employee) {
+	public List<EmployeeTO> addEmployeeToOffice(OfficeTO officeTO, EmployeeTO employee) {
 		EmployeeEntity employeeEntity = EmployeeMapper.map2Entity(employee);
 		OfficeEntity officeEntity = OfficeMapper.map2Entity(officeTO);
-		officeDao.addEmployee(officeEntity, employeeEntity);
-		return officeTO;
+		List<EmployeeTO> employies = EmployeeMapper.map2TOs(officeDao.addEmployee(officeEntity, employeeEntity));
+		return employies;
 	}
 
 	@Override
-	public OfficeTO removeEmployeeFromOffice(OfficeTO officeTO, EmployeeTO employee) {
+	public EmployeeTO removeEmployeeFromOffice(OfficeTO officeTO, EmployeeTO employee) {
 		EmployeeEntity employeeEntity = employeeDAO.findOne(employee.getId());
 		OfficeEntity officeEntity = officeDao.getOne(officeTO.getId());
 		officeDao.removeEmployee(officeEntity, employeeEntity);
-		return officeTO;
+		return employee;
 	}
 
 	@Override
-	public Set<EmployeeTO> getAllOfficeEmployies(OfficeTO officeTO) {
+	public List<EmployeeTO> getAllOfficeEmployies(OfficeTO officeTO) {
 		OfficeEntity officeEntity = officeDao.getOne(officeTO.getId());
-		Set<EmployeeEntity> employiesEntity = officeDao.getEmployies(officeEntity);
-		Set<EmployeeTO> employiesTO = new HashSet<>();
+		List<EmployeeEntity> employiesEntity = officeDao.getEmployies(officeEntity);
+		List<EmployeeTO> employiesTO = new LinkedList<>();
 		for (EmployeeEntity employeeEntity : employiesEntity) {
 			EmployeeTO employeeTO = EmployeeMapper.map2TO(employeeEntity);
 			employiesTO.add(employeeTO);
@@ -84,11 +86,11 @@ public class OfficeServiceImpl implements OfficeService {
 	}
 
 	@Override
-	public Set<EmployeeTO> getOfficeEmployiesByCar(OfficeTO officeTO, CarTO carTO) {
+	public List<EmployeeTO> getOfficeEmployiesByCar(OfficeTO officeTO, CarTO carTO) {
 		OfficeEntity officeEntity = officeDao.getOne(officeTO.getId());
 		CarEntity carEntity = carDAO.findOne(carTO.getId());
-		Set<EmployeeEntity> employiesEntity = officeDao.getEmployies(officeEntity);
-		Set<EmployeeTO> employiesTO = new HashSet<>();
+		List<EmployeeEntity> employiesEntity = officeDao.getEmployies(officeEntity);
+		List<EmployeeTO> employiesTO = new LinkedList<>();
 		for (EmployeeEntity employeeEntity : employiesEntity) {
 			if (employeeEntity.getCars().contains(carEntity)) {
 				employiesTO.add(EmployeeMapper.map2TO(employeeEntity));

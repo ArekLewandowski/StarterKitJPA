@@ -19,7 +19,11 @@ public class EmployeeMapper {
 	}
 	
 	public static EmployeeEntity map2Entity(EmployeeTO employeeTO) {
-		EmployeeEntity employeeEntity = new EmployeeEntity();
+		return map2Entity(employeeTO, new EmployeeEntity());
+		
+	}
+	
+	public static EmployeeEntity map2Entity(EmployeeTO employeeTO, EmployeeEntity employeeEntity) {
 		employeeEntity.setId(employeeTO.getId());
 		employeeEntity.setFirstName(employeeTO.getFirstName());
 		employeeEntity.setLastName(employeeTO.getLastName());

@@ -1,8 +1,10 @@
 package com.capgemini.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -15,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -48,16 +51,20 @@ public class OfficeEntity implements Serializable {
 	@Column(nullable = true, length = 50)
 	private int phone;
 	@OneToMany(mappedBy = "office")
-	private Set<EmployeeEntity> employies = new HashSet<>();
+	private List<EmployeeEntity> employies = new ArrayList<>();
 	@OneToMany(mappedBy = "rentOffice")
 	private List<RentEntity> rents;
 	@OneToMany(mappedBy = "returnOffice")
 	private List<RentEntity> returns;
+	
+	@Version
+	private Long version;
+	
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "create_date")
 	private Date createDate;
-
+	
 	@UpdateTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "modify_date")

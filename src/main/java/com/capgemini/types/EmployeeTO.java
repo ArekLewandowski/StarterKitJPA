@@ -1,11 +1,5 @@
 package com.capgemini.types;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import com.capgemini.domain.CarEntity;
-import com.capgemini.domain.OfficeEntity;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

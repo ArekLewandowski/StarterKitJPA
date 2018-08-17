@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -59,6 +60,8 @@ public class ClientEntity implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "create_date")
 	private Date createDate;
+	@Version
+	private Long version;
 
 	@UpdateTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
