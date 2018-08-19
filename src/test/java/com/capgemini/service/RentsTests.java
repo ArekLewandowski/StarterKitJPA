@@ -3,6 +3,8 @@ package com.capgemini.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import javax.transaction.Transactional;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +16,10 @@ import com.capgemini.dao.ClientDAO;
 import com.capgemini.dao.RentDAO;
 import com.capgemini.domain.ClientEntity;
 import com.capgemini.domain.RentEntity;
+import com.capgemini.mappers.CarMapper;
+import com.capgemini.mappers.OfficeMapper;
 import com.capgemini.types.CarTO;
 import com.capgemini.types.OfficeTO;
-
-import Enums.CAR_TYPE;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @RunWith(SpringRunner.class)
@@ -36,6 +38,7 @@ public class RentsTests {
 	@Autowired
 	private ClientDAO clientDAO;
 	
+	@Transactional
 	@Test
 	public void testShouldAddRent() {
 
@@ -49,7 +52,7 @@ public class RentsTests {
 				.brand("Toyota")
 				.model("Rav4")
 				.color("pink")
-				.type(CAR_TYPE.SUV)
+				.type("SUV")
 				.engineCapacity(2000)
 				.engineForce(120)
 				.year(2016)
@@ -61,7 +64,7 @@ public class RentsTests {
 				.brand("Toyota")
 				.model("Yaris")
 				.color("blue")
-				.type(CAR_TYPE.CITY)
+				.type("CITY")
 				.engineCapacity(1000)
 				.engineForce(80)
 				.year(2015)
@@ -73,7 +76,7 @@ public class RentsTests {
 				.brand("Honda")
 				.model("Civic")
 				.color("black")
-				.type(CAR_TYPE.HATCHBACK)
+				.type("HATCHBACK")
 				.engineCapacity(1600)
 				.engineForce(100)
 				.year(2016)
@@ -88,16 +91,21 @@ public class RentsTests {
 		ce.setAddres("sn@email.pl");	
 		clientDAO.save(ce);
 		
-//		RentEntity rentEntity = new RentEntity();
-//		rentEntity.setCar(carService.);
-//		rentDAO.
+		RentEntity rentEntity = new RentEntity();
+		rentEntity.setCar(CarMapper.map2Entity(updatedCar));
+		rentEntity.setClient(ce);
+		rentEntity.setRentOffice(OfficeMapper.map2Entity(addedOffice));
+		rentEntity.setRentDate(java.sql.Date.valueOf("2016-01-01"));
+		rentEntity.setPrice(1000);
+		
 
 
 		// when
-		OfficeTO selectedOffice = officeService.getOffice(1L);
+		
+		RentEntity savedRent = rentDAO.save(rentEntity);
 
 		// then
-		assertNotNull(selectedOffice);
-		assertEquals(addedOffice.getCity(), selectedOffice.getCity());
+		assertNotNull(savedRent);
+		assertEquals(CarMapper.map2Entity(updatedCar), rentDAO.getOne(savedRent.getId()).getCar());
 	}
 }

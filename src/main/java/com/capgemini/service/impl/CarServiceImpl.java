@@ -16,8 +16,6 @@ import com.capgemini.service.CarService;
 import com.capgemini.types.CarTO;
 import com.capgemini.types.EmployeeTO;
 
-import Enums.CAR_TYPE;
-
 @Service
 @Transactional
 public class CarServiceImpl implements CarService{
@@ -64,7 +62,7 @@ public class CarServiceImpl implements CarService{
 	}
 
 	@Override
-	public List<CarTO> getCarByType(CAR_TYPE type) {
+	public List<CarTO> getCarByType(String type) {
 		List<CarTO> cars = CarMapper.map2TOs(carDAO.getByType(type));
 		return cars;
 	}

@@ -11,8 +11,6 @@ import com.capgemini.dao.CarDAO;
 import com.capgemini.domain.CarEntity;
 import com.capgemini.domain.EmployeeEntity;
 
-import Enums.CAR_TYPE;
-
 @Repository
 @Transactional
 public class CarDaoImpl extends AbstractDao<CarEntity, Long> implements CarDAO{
@@ -32,10 +30,10 @@ public class CarDaoImpl extends AbstractDao<CarEntity, Long> implements CarDAO{
 	}
 
 	@Override
-	public List<CarEntity> getByType(CAR_TYPE type) {
+	public List<CarEntity> getByType(String type) {
 		TypedQuery<CarEntity> query = entityManager.createQuery(
 	            "select car from CarEntity car where upper(car.type) like concat(upper(:type), '%')", CarEntity.class);
-	    query.setParameter("type", type.toString());
+	    query.setParameter("type", type);
 	    return query.getResultList();
 	}
 	

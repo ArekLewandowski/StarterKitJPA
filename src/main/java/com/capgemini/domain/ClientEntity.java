@@ -44,15 +44,15 @@ public class ClientEntity implements Serializable {
 	private String firstName;
 	@Column(name = "LAST_NAME", nullable = false, length = 50)
 	private String lastName;
-	@Column(name = "EMAIL", nullable = false, length = 50)
+	@Column(name = "EMAIL", nullable = true, length = 50)
 	private String email;
-	@Column(name = "DAT_OF_BIRTH", nullable = false, length = 50)
+	@Column(name = "DAT_OF_BIRTH", nullable = true, length = 50)
 	private Date dateOfBirth;
-	@Column(name = "ADDRESS", nullable = false, length = 50)
+	@Column(name = "ADDRESS", nullable = true, length = 50)
 	private String addres;
-	@Column(name = "PHONE", nullable = false, length = 50)
+	@Column(name = "PHONE", nullable = true, length = 50)
 	private String phone;
-	@Column(name = "CREDIT_CARD", nullable = false, length = 50)
+	@Column(name = "CREDIT_CARD", nullable = true, length = 50)
 	private long creditCard;
 	@OneToMany(mappedBy = "client")
 	private List<RentEntity> rents  = new LinkedList<>();

@@ -5,8 +5,6 @@ import java.util.List;
 import com.capgemini.types.CarTO;
 import com.capgemini.types.EmployeeTO;
 
-import Enums.CAR_TYPE;
-
 public interface CarService {
 
 	CarTO addCar(CarTO car);
@@ -15,7 +13,7 @@ public interface CarService {
 	CarTO getCar(Long id);
 	CarTO setEmployee(CarTO car, EmployeeTO employee);
 	List<CarTO> getAllCars();	
-	List<CarTO> getCarByType(CAR_TYPE type);	
+	List<CarTO> getCarByType(String type);	
 	List<CarTO> getCarByBrand(String brand);
 	List<CarTO> getCarByEmployee(EmployeeTO employee);
 	void deleteCar(Long id);

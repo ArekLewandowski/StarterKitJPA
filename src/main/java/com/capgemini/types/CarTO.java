@@ -1,6 +1,5 @@
 package com.capgemini.types;
 
-import Enums.CAR_TYPE;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +14,7 @@ public class CarTO {
 	private Long id;
 	private String brand;
 	private String model;
-	private CAR_TYPE type;
+	private String type;
 	private int year;
 	private String color;
 	private int engineCapacity;

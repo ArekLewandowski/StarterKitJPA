@@ -22,7 +22,6 @@ import javax.persistence.Version;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import Enums.CAR_TYPE;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -49,7 +48,7 @@ public class CarEntity implements Serializable {
 	@Column(name = "MODEL", nullable = false, length = 50)
 	private String model;
 	@Column(name = "TYPE", nullable = false, length = 50)
-	private CAR_TYPE type;
+	private String type;
 	@Column(name = "YEAR", nullable = false, length = 50)
 	private int year;
 	@Column(name = "COLOR", nullable = false, length = 50)
