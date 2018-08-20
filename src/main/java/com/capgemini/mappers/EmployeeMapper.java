@@ -17,12 +17,12 @@ public class EmployeeMapper {
 		employeeTO.setAge(employeeEntity.getAge());
 		return employeeTO;
 	}
-	
+
 	public static EmployeeEntity map2Entity(EmployeeTO employeeTO) {
 		return map2Entity(employeeTO, new EmployeeEntity());
-		
+
 	}
-	
+
 	public static EmployeeEntity map2Entity(EmployeeTO employeeTO, EmployeeEntity employeeEntity) {
 		employeeEntity.setId(employeeTO.getId());
 		employeeEntity.setFirstName(employeeTO.getFirstName());
@@ -31,7 +31,7 @@ public class EmployeeMapper {
 		employeeEntity.setAge(employeeTO.getAge());
 		return employeeEntity;
 	}
-	
+
 	public static List<EmployeeTO> map2TOs(List<EmployeeEntity> employeeEntities) {
 		List<EmployeeTO> employeeTOs = new LinkedList<>();
 		for (EmployeeEntity employeeEntity : employeeEntities) {
@@ -40,8 +40,8 @@ public class EmployeeMapper {
 		}
 		return employeeTOs;
 	}
-	
-	public static List<EmployeeEntity> map2Entities(List<EmployeeTO> employeeTOs){
+
+	public static List<EmployeeEntity> map2Entities(List<EmployeeTO> employeeTOs) {
 		List<EmployeeEntity> employeeEntities = new LinkedList<>();
 		for (EmployeeTO employeeTO : employeeTOs) {
 			EmployeeEntity employeeEntity = map2Entity(employeeTO);

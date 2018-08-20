@@ -3,7 +3,6 @@ package com.capgemini.domain;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,11 +40,11 @@ public class RentEntity implements Serializable {
 	private Long id;
 	@ManyToOne
 	ClientEntity client;
-	@ManyToOne(cascade = CascadeType.REMOVE)
+	@ManyToOne
 	CarEntity car;
 	@ManyToOne
 	OfficeEntity rentOffice;
-	@Column(name = "RENT_DATE", nullable = false)
+	@Column(name = "RENT_DATE")
 	private Date rentDate;
 	@ManyToOne
 	OfficeEntity returnOffice;
@@ -55,7 +54,7 @@ public class RentEntity implements Serializable {
 	private long price;
 	@Version
 	private Long version;
-	
+
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "create_date")

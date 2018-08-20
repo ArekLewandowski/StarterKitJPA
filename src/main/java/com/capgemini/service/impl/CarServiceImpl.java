@@ -18,13 +18,14 @@ import com.capgemini.types.EmployeeTO;
 
 @Service
 @Transactional
-public class CarServiceImpl implements CarService{
+public class CarServiceImpl implements CarService {
+
 	@Autowired
 	CarDAO carDAO;
-	
+
 	@Autowired
 	EmployeeDAO employeeDAO;
-	
+
 	@Override
 	public CarTO addCar(CarTO car) {
 		CarEntity carEntity = CarMapper.map2Entity(car);
@@ -45,10 +46,10 @@ public class CarServiceImpl implements CarService{
 	public void deleteCar(Long id) {
 		carDAO.delete(id);
 	}
-	
+
 	@Override
 	public CarTO updateCar(CarTO car) {
-		CarEntity carEntity = carDAO.findOne(car.getId()) ;
+		CarEntity carEntity = carDAO.findOne(car.getId());
 		carDAO.update(CarMapper.map2Entity(car, carEntity));
 		return car;
 	}
@@ -73,12 +74,6 @@ public class CarServiceImpl implements CarService{
 		return cars;
 	}
 
-//	@Override
-//	public List<CarTO> getCarByEmployee(EmployeeTO employee) {
-//		List<CarTO> cars = CarMapper.map2TOs(carDAO.getByEmployee(employee.getId()));
-//		return cars;
-//	}
-	
 	@Override
 	public List<CarTO> getCarByEmployee(EmployeeTO employee) {
 		List<CarTO> cars = CarMapper.map2TOs(employeeDAO.getOne(employee.getId()).getCars());

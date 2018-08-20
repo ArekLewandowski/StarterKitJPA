@@ -1,9 +1,7 @@
 package com.capgemini.service.impl;
 
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -16,7 +14,6 @@ import com.capgemini.dao.OfficeDAO;
 import com.capgemini.domain.CarEntity;
 import com.capgemini.domain.EmployeeEntity;
 import com.capgemini.domain.OfficeEntity;
-import com.capgemini.mappers.CarMapper;
 import com.capgemini.mappers.EmployeeMapper;
 import com.capgemini.mappers.OfficeMapper;
 import com.capgemini.service.OfficeService;
@@ -59,8 +56,8 @@ public class OfficeServiceImpl implements OfficeService {
 
 	@Override
 	public List<EmployeeTO> addEmployeeToOffice(OfficeTO officeTO, EmployeeTO employee) {
-		EmployeeEntity employeeEntity = EmployeeMapper.map2Entity(employee);
-		OfficeEntity officeEntity = OfficeMapper.map2Entity(officeTO);
+		EmployeeEntity employeeEntity = employeeDAO.getOne(employee.getId());
+		OfficeEntity officeEntity = officeDao.getOne(officeTO.getId());
 		List<EmployeeTO> employies = EmployeeMapper.map2TOs(officeDao.addEmployee(officeEntity, employeeEntity));
 		return employies;
 	}

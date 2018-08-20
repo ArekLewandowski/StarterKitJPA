@@ -9,6 +9,6 @@ import com.capgemini.domain.ClientEntity;
 
 @Repository
 @Transactional
-public class ClientDaoImpl extends AbstractDao<ClientEntity, Long> implements ClientDAO{
+public class ClientDaoImpl extends AbstractDao<ClientEntity, Long> implements ClientDAO {
 
 }

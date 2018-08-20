@@ -3,10 +3,7 @@ package com.capgemini.domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -56,21 +53,21 @@ public class OfficeEntity implements Serializable {
 	private List<RentEntity> rents;
 	@OneToMany(mappedBy = "returnOffice")
 	private List<RentEntity> returns;
-	
+
 	@Version
 	private Long version;
-	
+
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "create_date")
 	private Date createDate;
-	
+
 	@UpdateTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "modify_date")
 	private Date modifyDate;
-	
-	public void addEmployee(EmployeeEntity employeeEntity){
+
+	public void addEmployee(EmployeeEntity employeeEntity) {
 		employies.add(employeeEntity);
 	}
 }

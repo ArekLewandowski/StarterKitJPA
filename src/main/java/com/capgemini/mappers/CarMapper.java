@@ -8,7 +8,7 @@ import com.capgemini.types.CarTO;
 
 public class CarMapper {
 
-	public static CarTO map2TO(CarEntity carEntity){
+	public static CarTO map2TO(CarEntity carEntity) {
 		CarTO carTO = new CarTO();
 		carTO.setId(carEntity.getId());
 		carTO.setBrand(carEntity.getBrand());
@@ -21,13 +21,13 @@ public class CarMapper {
 		carTO.setMileage(carEntity.getMileage());
 		return carTO;
 	}
-	
-	public static CarEntity map2Entity(CarTO carTO){
+
+	public static CarEntity map2Entity(CarTO carTO) {
 		return map2Entity(carTO, new CarEntity());
 
 	}
-	
-	public static List<CarTO> map2TOs(List<CarEntity> carEntities){
+
+	public static List<CarTO> map2TOs(List<CarEntity> carEntities) {
 		List<CarTO> carTOs = new LinkedList<>();
 		for (CarEntity carEntity : carEntities) {
 			CarTO carTO = map2TO(carEntity);
@@ -35,8 +35,8 @@ public class CarMapper {
 		}
 		return carTOs;
 	}
-	
-	public static List<CarEntity> map2Entities(List<CarTO> carTOs ){
+
+	public static List<CarEntity> map2Entities(List<CarTO> carTOs) {
 		List<CarEntity> carEntities = new LinkedList<>();
 		for (CarTO carTO : carTOs) {
 			CarEntity carEntity = map2Entity(carTO);

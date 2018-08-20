@@ -12,13 +12,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RentTO {
-	
+
 	private long id;
-	private long clientId;
-	private long carId;
-	private long rentOfficeId;
+	private ClientTO clientTO;
+	private CarTO carTO;
+	private OfficeTO rentOfficeTO;
 	private Date rentDate;
-	private long returnOfficeId;
+	private OfficeTO returnOfficeTO;
 	private Date returnDate;
 	private long price;
 

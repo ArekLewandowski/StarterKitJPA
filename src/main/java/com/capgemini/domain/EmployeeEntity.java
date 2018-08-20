@@ -54,15 +54,13 @@ public class EmployeeEntity implements Serializable {
 	@ManyToOne
 	OfficeEntity office;
 	@ManyToMany
-	@JoinTable(name = "CAR_EMPLOYEE", 
-		joinColumns = {
-				@JoinColumn(name = "EMPLOYEE_ID", nullable = false, updatable = false) }, 
-		inverseJoinColumns = {
-				@JoinColumn(name = "CAR_ID", nullable = false, updatable = false) })
+	@JoinTable(name = "CAR_EMPLOYEE", joinColumns = {
+			@JoinColumn(name = "EMPLOYEE_ID", nullable = false, updatable = false) }, inverseJoinColumns = {
+					@JoinColumn(name = "CAR_ID", nullable = false, updatable = false) })
 	private List<CarEntity> cars = new LinkedList<>();
 	@Version
 	private Long version;
-	
+
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "create_date")
@@ -72,8 +70,8 @@ public class EmployeeEntity implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "modify_date")
 	private Date modifyDate;
-	
-	public void addCar(CarEntity car){
+
+	public void addCar(CarEntity car) {
 		cars.add(car);
 	}
 }

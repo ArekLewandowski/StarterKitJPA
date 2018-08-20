@@ -8,7 +8,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -61,11 +60,11 @@ public class CarEntity implements Serializable {
 	private int mileage;
 	@ManyToMany(mappedBy = "cars")
 	private List<EmployeeEntity> employies = new LinkedList<>();
-	@OneToMany(mappedBy = "car",  fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "car", cascade = CascadeType.REMOVE)
 	private List<RentEntity> rents;
 	@Version
 	private Long version;
-	
+
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "create_date")
@@ -75,7 +74,7 @@ public class CarEntity implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "modify_date")
 	private Date modifyDate;
-	
+
 	public void addEmployee(EmployeeEntity employeeEntity) {
 		employies.add(employeeEntity);
 	}

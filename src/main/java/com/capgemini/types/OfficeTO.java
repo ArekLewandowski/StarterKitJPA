@@ -15,5 +15,5 @@ public class OfficeTO {
 	private String city;
 	private String address;
 	private String email;
-	private int phone;	
+	private int phone;
 }

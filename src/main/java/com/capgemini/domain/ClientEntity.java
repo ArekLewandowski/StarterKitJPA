@@ -40,7 +40,7 @@ public class ClientEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	@Column(name = "FIRST_NAME", nullable = false, length = 50)
+	@Column(name = "FIRST_NAME", nullable = true, length = 50)
 	private String firstName;
 	@Column(name = "LAST_NAME", nullable = false, length = 50)
 	private String lastName;
@@ -55,7 +55,7 @@ public class ClientEntity implements Serializable {
 	@Column(name = "CREDIT_CARD", nullable = true, length = 50)
 	private long creditCard;
 	@OneToMany(mappedBy = "client")
-	private List<RentEntity> rents  = new LinkedList<>();
+	private List<RentEntity> rents = new LinkedList<>();
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "create_date")
